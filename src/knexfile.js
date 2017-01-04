@@ -1,19 +1,14 @@
-// Update with your config settings.
-
+require('dotenv').config();
 module.exports = {
 
   development: {
-    client: 'postgresql',
-    connection: 'postgres://localhost:5432/cloke'
+    client: 'postgres',
+    connection: process.env.DATABASE_URL || 'postgres://localhost:5432/cloke'
+    //,
+    //debug:true
   },
-
   production: {
-    client: 'postgresql',
-    connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
-    }
+    client: 'pg',
+    connection: process.env.DATABASE_URL
   }
-
 };
