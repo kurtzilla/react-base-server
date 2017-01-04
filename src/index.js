@@ -14,4 +14,4 @@ app.use('/api/users', users);
 app.use('/api/auth', auth);
 app.use('/api/events', events);
 
-app.listen(8080, () => console.log('Running on localhost:8080'));
+app.listen(process.env.PORT, () => console.log('Running on localhost:' + process.env.PORT));

@@ -1,5 +1,5 @@
 import express from 'express';
-import commonValidations from '../shared/validations/signup';
+import commonValidations from '../validations/signup';
 import bcrypt from 'bcrypt';
 import isEmpty from 'lodash/isEmpty';
 
@@ -7,8 +7,8 @@ import User from '../models/user';
 
 let router = express.Router();
 
-function validateInput(data, otherValidations) {
-  let { errors } = otherValidations(data);
+function validateInput(data, _validations) {
+  let { errors } = _validations(data);
 
   return User.query({
     where: { email: data.email },
@@ -32,6 +32,7 @@ function validateInput(data, otherValidations) {
 }
 
 router.get('/:identifier', (req, res) => {
+  // console.log('TEST API CALL');
   User.query({
     select: [ 'username', 'email' ],
     where: { email: req.params.identifier },
@@ -43,7 +44,7 @@ router.get('/:identifier', (req, res) => {
 
 
 router.post('/', (req, res) => {
-  validateInput(req.body, commonValidations).then(({ errors, isValid }) => {
+  validateInput(req.body, _validations).then(({ errors, isValid }) => {
     if (isValid) {
       const { username, password, timezone, email } = req.body;
       const password_digest = bcrypt.hashSync(password, 10);
